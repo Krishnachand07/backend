@@ -1,4 +1,4 @@
 {
-	"mongoURI": "mongodb+srv://user:user@cluster0-fwf06.mongodb.net/test?retryWrites=true&w=majority",
+	"mongoURI": "MONGODB_CONNECTION_STRING",
 	"jwtSecret": "iDenti_Secret"
 }
