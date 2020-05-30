@@ -25,6 +25,10 @@ const Profile = new Schema({
 	gender: {
 		type: String,
 		required: true
+	},
+	file: {
+		data: Buffer,
+		contentType: String
 	}
 });
 

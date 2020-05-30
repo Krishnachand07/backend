@@ -31,4 +31,6 @@ app.get('/', (req, res) => {
 app.use('/user', user);
 app.use('/auth', auth);
 
-app.listen(process.env.PORT || 5000);
+app.listen(5000, () => {
+	console.log('listen in 5000');
+});

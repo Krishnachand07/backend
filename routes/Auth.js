@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
+const upload = require('../middleware/upload');
 const User = require('../models/Users');
 const Profile = require('../models/Profile');
 const Details = require('../models/Details');
@@ -39,24 +40,29 @@ router.get('/user', auth, (req, res) => {
 	});
 });
 
-router.post('/profile', (req, res) => {
+router.post('/profile', upload, (req, res) => {
 	const { name, email, phone, dob, gender, address } = req.body;
-	if (!name || !email || !phone || !dob || !gender || !address) {
+	const file = req.file;
+
+	if (!name || !email || !phone || !dob || !gender || !address || !file) {
 		return res.status(400).json({ msg: 'Enter the fields' });
 	}
 	Profile.findOne({ email }).then((emp) => {
 		if (emp) return res.status(400).json({ msg: 'This profile already exists' });
 
-		const Emp = new Emp({
+		const user = new Profile({
 			name,
 			email,
 			phone,
 			dob,
 			gender,
-			address
+			address,
+			file
 		});
-
-		Emp.save()
+		user.file.data = file.buffer;
+		user.file.contentType = file.mimetype;
+		user
+			.save()
 			.then((user) => {
 				res.json({
 					name: user.name,
